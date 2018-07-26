@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mathapp</title>
+	</head>
+<body>
+	<style type="text/css">
+	*,
+	*:before,
+	*:after {
+  		-webkit-box-sizing: border-box;
+     	-moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0;
+}
+	body{
+		word-wrap: break-word;
+	}
+	.header {
+		background: green;
+	}
+    .columns {
+        display: flex;
+        align-content: stretch;
+        align-items: stretch;
+    }
+    .column-one {
+    	flex-basis: 50%;
+        border: 1px solid red;
+        resize: both;
+        overflow-y: auto;
+    }
+    .column-two {
+        flex: 2;
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .practice {
+    	borred: 1px solid black;
+    	flex-grow: 1;
+    }
+    .practice-2 {
+    	border: 1px solid pink;
+    	flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .practice-3 {
+    	border: 1px solid blue;
+    	flex-grow: 1;
+    }
+    .checkButton {
+        position: absolute;
+        top:95%;
+        left: 95%;
+    }
+    .area {
+        width: 100%;
+        padding: 10px;
+    }
+    h2 {
+        text-align: center;
+    }
+    .flexContainer {
+    display: flex;
+    }
+
+    .inputField {
+    flex: 1;
+    }
+
+	</style>
+	<div class="container">
+    <div class="header">
+        <h1>Hello</h1>
+    </div>
+    <div class="columns">
+        <div class="column-one">
+            <div class="area"></div>
+             </div>
+        <div class="column-two">
+        <div class="practice">
+        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, ut, dolore, fugit illum molestias dicta necessitatibus nulla aut autem labore officia est ipsam quos enim, nostrum debitis ipsa repellendus praesentium.</div>
+        <div>Sit voluptates maiores atque quasi voluptate, veritatis iusto eum, sint omnis rem at ipsum magni, dolore velit veniam labore impedit autem vitae! Eum provident quia nihil non est, itaque dolores?</div>
+        <div>Corporis dolorum optio expedita modi. Quam distinctio quibusdam odit ducimus sed explicabo temporibus harum, voluptatum sint, sapiente pariatur, beatae? Magni harum architecto, laborum molestiae ipsum fugiat voluptatum, omnis dignissimos aspernatur?</div>
+        <div>Rerum id, aliquam corrupti neque reiciendis! Molestiae sapiente nam vero illo totam, atque magnam labore tempora fugit expedita placeat nobis, quo sit quasi porro error. Assumenda repudiandae expedita qui velit!</div>
+        <div>Optio quod unde enim accusantium eveniet fuga illo eaque commodi aliquid similique iste vero eius laboriosam modi, minus suscipit architecto repellendus quidem. Eum illum, dignissimos beatae accusamus maxime sunt dolorum!</div>
+        <div class="practice-2" id="second">
+      <!--       <div class="flexContainer" id="flex">
+            <input type="text" class="inputField" id="inp">
+            <button type="button" class="del" onclick="deleteInp()">delete</button>
+            <button type="button" onclick="addInp()">add</button>
+        </div> -->
+        </div>
+        <div class="practice-3">
+            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id perferendis tenetur aliquam animi delectus, qui expedita nihil deleniti hic, fuga ratione vitae! Magni fuga dolorem aspernatur ea quisquam expedita quos.</div>
+            <div>Illum maiores natus quas soluta id, possimus provident laboriosam! Ipsam repudiandae deleniti ullam laboriosam ad atque! Nobis molestias repellendus et neque vero alias numquam, quos tempora sed earum harum possimus!</div>
+            <div>Amet nobis harum impedit unde. Error pariatur veritatis harum reiciendis optio in autem. Pariatur, qui itaque cumque, ullam saepe impedit inventore autem, expedita alias vitae id suscipit tempore beatae cupiditate.</div>
+            <div>Illum sapiente, est quos id quo. Eum tempora magni non, minus beatae suscipit magnam voluptatibus? Harum aspernatur reiciendis minima, et veniam amet alias ut, tempora molestias laudantium, rem quis eos.</div>
+    </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', theory);
+    localStorage.key = 0;
+    var lvl = localStorage.key;
+    const area = document.querySelector('.area');
+    const practice2 = document.querySelector('.practice-2');
+    const input = document.querySelector('.inputField');
+    
+
+    function theory() {
+        xhr = new XMLHttpRequest;
+        var output = '';
+        xhr.open('GET', '1.json', true);
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                var test = JSON.parse(this.responseText);
+                var arr = test[lvl]["theory"].split('\n');
+                var equations = test[lvl]["equation"];
+                output += '<h2>'+test[lvl]["title"]+'</h2>';
+                var equation = test[lvl]["equation"];
+                equation.forEach(function(i) {
+                    practice2.innerHTML = '';
+                    for(var j = 0; j < equation.length; j++){
+                        addInp();
+                        var inputs = document.querySelectorAll('.inputField');
+                        console.log(equation);
+                        inputs[0].value = equation[0];
+                        if(j>=1){
+                        inputs[j].value = equation[j];
+                    }
+                    }
+                });
+                arr.forEach(function(i){
+                      output += '<p>'+i+'</p>';
+                });  
+                area.innerHTML = output;
+                var button = document.createElement('button');
+                button.innerHTML = "click me";
+                button.id = 'checkButton';
+                area.appendChild(button);
+                button.addEventListener('click', checkAnswer);
+                lvl++;
+                var inputs = document.querySelectorAll('.inputField');
+            }
+        }
+        xhr.send();
+
+    }
+  
+    function addInp() {
+        var newInp = '';
+        newInp += '<div class="flexContainer">' +
+            '<input type="text" class="inputField">' +
+            '<button type="button" class="del" onclick="deleteInp()">' + 'delete' + '</button>' +
+            '<button type="button" onclick="addInp()">' +'add'+'</button>'+
+        '</div>'
+        practice2.innerHTML += newInp;
+    }
+
+       function deleteInp(){
+        console.log(event);
+        event.target.parentNode.style.display = 'none';
+    }
+
+
+    // function checkAnswer() {
+    //     xhr = new XMLHttpRequest;
+    //     var output = '';
+
+    //     xhr.open('GET', '1.json', true);
+    //     xhr.onreadystatechange = function() {
+    //         if(this.readyState == 4 && this.status == 200) {
+    //            var test = JSON.parse(this.responseText);
+    //          console.log('kekeke')
+    //         }
+    //     }
+
+    //     xhr.send();
+    // }
+
+
+
+
+</script>
+</body>
+</html>
+
